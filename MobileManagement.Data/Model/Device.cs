@@ -15,6 +15,7 @@ namespace MobileManagement.Data.Model
         public string Imei { get; set; }
         public int UserId { get; set; }
         public int ManufacturerId { get; set; }
+        public string PhoneNumber { get; set; }
         public decimal Price { get; set; }
 
         [ForeignKey("UserId")]
