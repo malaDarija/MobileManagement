@@ -1,15 +1,16 @@
 ﻿using MobileManagement.Data.Db;
 using MobileManagement.Data.Model;
 using MobileManagement.Data.ViewModel;
-using System;
 using System.Collections.Generic;
+using MobileManagement.Data.Helper;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data.Entity;
+using System;
+using MobileManagement.Logging;
 
 namespace MobileManagement.Data.Repository
 {
-    public class EfRepository
+    public class EfRepository : IRepository
     {
         private MobileManagementContext _db;
 
@@ -18,6 +19,7 @@ namespace MobileManagement.Data.Repository
             _db = db;
         }
 
+        #region Users
         public List<UserTypeVM> GetAllUserTypes()
         {
             List<UserTypeVM> resultList = new List<UserTypeVM>();
@@ -39,7 +41,7 @@ namespace MobileManagement.Data.Repository
 
             return resultList;
         }
-
+        
         public List<UserVM> GetAllUsers()
         {
             return _db.Users
@@ -52,6 +54,11 @@ namespace MobileManagement.Data.Repository
                     UserType = x.UserType.ToString()
                 })
                 .ToList();            
+        }
+
+        public UserType GetUserTypeForUserId(int userId)
+        {
+            return _db.Users.Where(x => x.Id == userId).Select(x => x.UserType).FirstOrDefault();
         }
 
         public UserVM GetUserVMById(int userId)
@@ -69,20 +76,9 @@ namespace MobileManagement.Data.Repository
                 .FirstOrDefault();
         }
 
-        public List<Device> GetAllDevices()
-        {
-            return _db.Devices.ToList();
-        }
-
         public void AddUser(User user)
         {
             _db.Users.Add(user);
-            _db.SaveChanges();
-        }
-
-        public void AddDevice(Device device)
-        {
-            _db.Devices.Add(device);
             _db.SaveChanges();
         }
 
@@ -92,25 +88,142 @@ namespace MobileManagement.Data.Repository
             var oldUser = _db.Users.Where(x => x.Id == user.Id).FirstOrDefault();
             if (oldUser == null)
             {
-                //TODO: log something
+                Logging.Logger.Instance.LogError($"User with id {user.Id} not found");
                 return;
             }
 
             oldUser.FirstName = user.FirstName;
-            oldUser.LastName = user.LastName;            
+            oldUser.LastName = user.LastName;
             oldUser.Email = user.Email;
             oldUser.UserType = user.UserType;
 
             _db.SaveChanges();
         }
 
+        public void DeleteUser(int userId)
+        {
+            var oldUser = _db.Users.Where(x => x.Id == userId).FirstOrDefault();
+            if (oldUser == null)
+            {
+                Logging.Logger.Instance.LogError($"User with id {userId} not found");
+                return;
+            }
+
+            _db.Users.Remove(oldUser);
+            _db.SaveChanges();
+        }
+
+        public List<UserVM> GetAllPotentialUsersForDevicePrice(decimal price)
+        {
+            var minimumUserType = price.GetMinimumUserType();
+            return _db.Users
+                .Where(x => (int)x.UserType >= (int)minimumUserType)
+                .Select(x => new UserVM()
+                {
+                    FirstName = x.FirstName,
+                    LastName = x.LastName,
+                    Email = x.Email,
+                    Id = x.Id,
+                    UserType = x.UserType.ToString()
+                })
+                .ToList();
+        }
+
+        #endregion
+
+        #region Devices
+        public List<DeviceVM> GetAllDevicesForUser(int userId)
+        {
+            return _db.Devices
+                .Include(x => x.Manufacturer)
+                .Where(x => x.UserId == userId)
+                .Select(x => new DeviceVM()
+                {
+                    Imei = x.Imei,
+                    Model = x.Model,
+                    PhoneNumber = x.PhoneNumber,
+                    Id = x.Id,
+                    Price = x.Price,
+                    ManufacturerName = x.Manufacturer.Name
+                })
+                .ToList();
+        }
+
+        public List<DeviceVM> GetAllDevices()
+        {
+            // Proci po svakom uređaju i dohvatiti pripadajućeg korisnika i proizvođača
+
+            var devices = _db.Devices
+                .Include(x => x.User)
+                .ToList();
+            var resultList = new List<DeviceVM>();
+
+            foreach (var device in devices)
+            {
+                DeviceVM vm = new DeviceVM()
+                {
+                    Imei = device.Imei,
+                    Model = device.Model,
+                    PhoneNumber = device.PhoneNumber,
+                    Id = device.Id,
+                    Price = device.Price,
+                    ManufacturerName = device.Manufacturer.Name
+                };
+
+                if (device.UserId.HasValue)
+                {
+                    vm.UserName = device.User.FirstName + " " + device.User.LastName;
+                }
+
+                resultList.Add(vm);
+            }
+
+            return resultList;
+        }
+
+        public DeviceVM GetDeviceVMById(int deviceId)
+        {
+            var device = _db.Devices.Where(x => x.Id == deviceId).FirstOrDefault();
+            if(device == null)
+            {
+                //Log something
+                return null;
+            }
+
+            DeviceVM vm = new DeviceVM()
+            {
+                Imei = device.Imei,
+                Model = device.Model,
+                PhoneNumber = device.PhoneNumber,
+                Id = device.Id,
+                Price = device.Price,
+                ManufacturerName = device.Manufacturer.Name,
+                ManufacturerId = device.ManufacturerId
+            };
+
+            if (device.UserId.HasValue)
+            {
+                vm.UserId = device.UserId;
+                vm.UserName = device.User.FirstName + " " + device.User.LastName;
+            }
+
+            return vm;
+        }
+                       
+        public void AddDevice(Device device)
+        {
+            _db.Devices.Add(device);
+            _db.SaveChanges();
+        }
+        
         public void EditDevice(Device device)
         {
             //Dohvati starog usera iz baze
             var oldDevice = _db.Devices.Where(x => x.Id == device.Id).FirstOrDefault();
             if (oldDevice == null)
             {
-                //TODO: log something
+                Logging.Logger.Instance.LogError($"Device with id {device.Id} not found");
+
                 return;
             }
 
@@ -122,31 +235,27 @@ namespace MobileManagement.Data.Repository
 
             _db.SaveChanges();
         }
-
-        public void DeleteUser(int userId)
-        {
-            var oldUser = _db.Users.Where(x => x.Id == userId).FirstOrDefault();
-            if (oldUser == null)
-            {
-                //TODO: log something
-                return;
-            }
-
-            _db.Users.Remove(oldUser);
-            _db.SaveChanges();
-        }
-
+        
         public void DeleteDevice(int deviceId)
         {
             var oldDevice = _db.Devices.Where(x => x.Id == deviceId).FirstOrDefault();
             if (oldDevice == null)
             {
-                //TODO: log something
+                Logging.Logger.Instance.LogError($"Device with id {deviceId} not found");
                 return;
             }
 
             _db.Devices.Remove(oldDevice);
             _db.SaveChanges();
         }
+
+        #endregion
+
+        #region Manufacturer
+        public List<Manufacturer> GetAllManufacturers()
+        {
+            return _db.Manufacturers.ToList();
+        }
+        #endregion
     }
 }

@@ -49,9 +49,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Db\MobileManagementContext.cs" />
     <Compile Include="Db\UserType.cs" />
+    <Compile Include="Helper\DecimalHelper.cs" />
+    <Compile Include="Helper\StringHelper.cs" />
     <Compile Include="Migrations\201709021535536_initial.cs" />
     <Compile Include="Migrations\201709021535536_initial.Designer.cs">
       <DependentUpon>201709021535536_initial.cs</DependentUpon>
@@ -60,6 +61,10 @@
     <Compile Include="Migrations\201709021755508_phone_number_changed.Designer.cs">
       <DependentUpon>201709021755508_phone_number_changed.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709031615019_user_is_optional.cs" />
+    <Compile Include="Migrations\201709031615019_user_is_optional.Designer.cs">
+      <DependentUpon>201709031615019_user_is_optional.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Device.cs" />
     <Compile Include="Model\Manufacturer.cs" />
@@ -67,6 +72,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\IRepository.cs" />
     <Compile Include="Repository\EfRepository.cs" />
+    <Compile Include="ViewModel\DeviceVM.cs" />
     <Compile Include="ViewModel\UserTypeVM.cs" />
     <Compile Include="ViewModel\UserVM.cs" />
   </ItemGroup>
@@ -74,13 +80,21 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\MobileManagement.Logger\MobileManagement.Logger.csproj">
+      <Project>{0265ad32-ce44-4138-aa73-cf87de631680}</Project>
+      <Name>MobileManagement.Logger</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201709021535536_initial.resx">
       <DependentUpon>201709021535536_initial.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201709021755508_phone_number_changed.resx">
       <DependentUpon>201709021755508_phone_number_changed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709031615019_user_is_optional.resx">
+      <DependentUpon>201709031615019_user_is_optional.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

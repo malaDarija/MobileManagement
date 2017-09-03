@@ -136,7 +136,7 @@
             // 
             // dodajBtn
             // 
-            this.dodajBtn.Location = new System.Drawing.Point(133, 228);
+            this.dodajBtn.Location = new System.Drawing.Point(115, 214);
             this.dodajBtn.Name = "dodajBtn";
             this.dodajBtn.Size = new System.Drawing.Size(63, 33);
             this.dodajBtn.TabIndex = 11;
@@ -146,7 +146,7 @@
             // 
             // izbrisiBtn
             // 
-            this.izbrisiBtn.Location = new System.Drawing.Point(289, 228);
+            this.izbrisiBtn.Location = new System.Drawing.Point(271, 214);
             this.izbrisiBtn.Name = "izbrisiBtn";
             this.izbrisiBtn.Size = new System.Drawing.Size(62, 33);
             this.izbrisiBtn.TabIndex = 12;
@@ -176,7 +176,7 @@
             // 
             // btnRestartForm
             // 
-            this.btnRestartForm.Location = new System.Drawing.Point(202, 228);
+            this.btnRestartForm.Location = new System.Drawing.Point(184, 214);
             this.btnRestartForm.Name = "btnRestartForm";
             this.btnRestartForm.Size = new System.Drawing.Size(81, 33);
             this.btnRestartForm.TabIndex = 13;

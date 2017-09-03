@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MobileManagement.Data
+namespace MobileManagement.Logger
 {
-    public class Class1
+    public interface ILoggerWriter
     {
+        void Write(string msg);
     }
 }

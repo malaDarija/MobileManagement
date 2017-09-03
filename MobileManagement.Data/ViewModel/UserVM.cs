@@ -15,7 +15,7 @@ namespace MobileManagement.Data.ViewModel
         public string UserType { get; set; }
         public string DisplayName { get
             {
-                return FirstName + " " + LastName;
+                return (FirstName + " " + LastName).Trim();
             }
         }
     }

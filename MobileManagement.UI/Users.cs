@@ -1,4 +1,5 @@
 ﻿using MobileManagement.Data.Db;
+using MobileManagement.Data.Helper;
 using MobileManagement.Data.Model;
 using MobileManagement.Data.Repository;
 using System;
@@ -9,16 +10,16 @@ namespace MobileManagement.UI
     public partial class Users : Form
     {
         private MobileManagementContext _db;
-        private EfRepository _repository;
+        private IRepository _repository;
         
-        public Users()
+        public Users(MobileManagementContext db)
         {
             InitializeComponent();
+            _db = db;
         }
 
         private void Users_Load(object sender, EventArgs e)
-        {
-            _db = new MobileManagementContext();
+        {            
             _repository = new EfRepository(_db);
 
             RefreshUsersTable();
@@ -37,9 +38,9 @@ namespace MobileManagement.UI
 
         private void dodajBtn_Click(object sender, EventArgs e)
         {
-           if(string.IsNullOrEmpty(firstNameTb.Text) || string.IsNullOrEmpty(lastNameTb.Text) || string.IsNullOrEmpty(emailTb.Text))
+           if(string.IsNullOrEmpty(firstNameTb.Text) || string.IsNullOrEmpty(lastNameTb.Text) || string.IsNullOrEmpty(emailTb.Text) || !emailTb.Text.IsValidEmail())
             {
-                MessageBox.Show("Greška, nedostaju podatci", "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Greška, nedostaju podaci", "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             User user = new User()

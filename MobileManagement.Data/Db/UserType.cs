@@ -8,8 +8,8 @@ namespace MobileManagement.Data.Db
 {
     public enum UserType
     {
-        Direktor = 1,
+        Djelatnik = 1,
         Voditelj = 2,
-        Djelatnik = 3
+        Direktor = 3
     }
 }
