@@ -8,20 +8,17 @@ using System.Windows.Forms;
 namespace MobileManagement.UI
 {
     public partial class Users : Form
-    {
-        private MobileManagementContext _db;
+    {        
         private IRepository _repository;
         
-        public Users(MobileManagementContext db)
+        public Users(IRepository repository)
         {
             InitializeComponent();
-            _db = db;
+            _repository = repository;
         }
 
         private void Users_Load(object sender, EventArgs e)
-        {            
-            _repository = new EfRepository(_db);
-
+        {   
             RefreshUsersTable();
 
             #region User type combo box            

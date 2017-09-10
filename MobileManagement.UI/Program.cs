@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using MobileManagement.Data.Db;
+using MobileManagement.Data.Repository;
 
 namespace MobileManagement.UI
 {
@@ -15,8 +17,11 @@ namespace MobileManagement.UI
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             AllocConsole();
-            Application.Run(new MainForm());
-            
+            using(MobileManagementContext db = new MobileManagementContext())
+            {
+                IRepository repository = new EfRepository(db);
+                Application.Run(new MainForm(repository));
+            }            
         }
 
         [DllImport("kernel32.dll", SetLastError = true)]

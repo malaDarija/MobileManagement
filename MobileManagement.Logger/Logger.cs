@@ -9,6 +9,7 @@ namespace MobileManagement.Logging
 {
     public class Logger
     {
+        //SINGLETON služi da osiguramo da je isključivo jedna instanca klase dostupna kroz život aplikacije
         private static Logger _instance;
 
         public static Logger Instance {
@@ -17,15 +18,15 @@ namespace MobileManagement.Logging
                 if (_instance == null)
                 {
                     _instance = new Logger();
-                }
+                }   
                 return _instance;
             }
         }
 
         private Logger()
         {
-
         }
+        //KRAJ SINGLETON-a
 
         public void LogInfo(string msg)
         {

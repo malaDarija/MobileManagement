@@ -5,8 +5,6 @@ using System.Collections.Generic;
 using MobileManagement.Data.Helper;
 using System.Linq;
 using System.Data.Entity;
-using System;
-using MobileManagement.Logging;
 
 namespace MobileManagement.Data.Repository
 {
@@ -16,7 +14,7 @@ namespace MobileManagement.Data.Repository
 
         public EfRepository(MobileManagementContext db)
         {
-            _db = db;
+            _db = db;            
         }
 
         #region Users
@@ -218,7 +216,7 @@ namespace MobileManagement.Data.Repository
         
         public void EditDevice(Device device)
         {
-            //Dohvati starog usera iz baze
+            //Dohvati stari device iz baze
             var oldDevice = _db.Devices.Where(x => x.Id == device.Id).FirstOrDefault();
             if (oldDevice == null)
             {
@@ -255,6 +253,53 @@ namespace MobileManagement.Data.Repository
         public List<Manufacturer> GetAllManufacturers()
         {
             return _db.Manufacturers.ToList();
+        }
+
+        public Manufacturer GetManufacturerById(int manufacturerId)
+        {
+            var manufacturer = _db.Manufacturers.Where(x => x.Id == manufacturerId).FirstOrDefault();
+            if (manufacturer == null)
+            {
+                //Log something
+                return null;
+            }
+
+            return manufacturer;
+        }
+
+        public void AddManufacturer(Manufacturer manufacturer)
+        {
+            _db.Manufacturers.Add(manufacturer);
+            _db.SaveChanges();
+        }
+
+        public void EditManufacturer(Manufacturer manufacturer)
+        {
+            //Dohvati starog manufacturera iz baze
+            var oldManufacturer = _db.Manufacturers.Where(x => x.Id == manufacturer.Id).FirstOrDefault();
+            if (oldManufacturer == null)
+            {
+                Logging.Logger.Instance.LogError($"Manufacturer with id {manufacturer.Id} not found");
+
+                return;
+            }
+
+            oldManufacturer.Name = manufacturer.Name;
+
+            _db.SaveChanges();
+        }
+
+        public void DeleteManufacturer(int manufacturerId)
+        {
+            var oldManufacturer = _db.Manufacturers.Where(x => x.Id == manufacturerId).FirstOrDefault();
+            if (oldManufacturer == null)
+            {
+                Logging.Logger.Instance.LogError($"Manufacturer with id {manufacturerId} not found");
+                return;
+            }
+
+            _db.Manufacturers.Remove(oldManufacturer);
+            _db.SaveChanges();
         }
         #endregion
     }

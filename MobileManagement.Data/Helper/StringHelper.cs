@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace MobileManagement.Data.Helper
-{
+{    
     public static class StringHelper
     {
         public static bool IsValidEmail(this string email)

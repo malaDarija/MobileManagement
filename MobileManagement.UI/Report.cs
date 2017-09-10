@@ -14,20 +14,17 @@ using System.Windows.Forms;
 namespace MobileManagement.UI
 {
     public partial class Report : Form
-    {
-        private MobileManagementContext _db;
+    {        
         private IRepository _repository;
 
-        public Report(MobileManagementContext db)
+        public Report(IRepository repository)
         {
             InitializeComponent();
-            _db = db;
+            _repository = repository;
         }
 
         private void Report_Load(object sender, EventArgs e)
         {
-            _repository = new EfRepository(_db);
-
             #region Users DDL
             usersCb.ValueMember = "Id";
             usersCb.DisplayMember = "DisplayName";

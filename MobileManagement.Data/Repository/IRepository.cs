@@ -1,11 +1,7 @@
 ﻿using MobileManagement.Data.Db;
 using MobileManagement.Data.Model;
 using MobileManagement.Data.ViewModel;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MobileManagement.Data.Repository
 {
@@ -26,5 +22,9 @@ namespace MobileManagement.Data.Repository
         void EditDevice(Device device);
         void DeleteDevice(int deviceId);
         List<Manufacturer> GetAllManufacturers();
+        void AddManufacturer(Manufacturer manufacturer);
+        void EditManufacturer(Manufacturer manufacturer);
+        void DeleteManufacturer(int manufacturerId);
+        Manufacturer GetManufacturerById(int manufacturerId);
     }
 }

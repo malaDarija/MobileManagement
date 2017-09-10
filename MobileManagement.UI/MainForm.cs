@@ -2,22 +2,22 @@
 using System;
 using System.Windows.Forms;
 using MobileManagement.Logging;
+using MobileManagement.Data.Repository;
 
 namespace MobileManagement.UI
 {
     public partial class MainForm : Form
-    {        
-        private MobileManagementContext _db;
+    {
+        private IRepository _repository;
 
-        public MainForm()
+        public MainForm(IRepository repository)
         {
             InitializeComponent();
+            _repository = repository;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
-        {
-            _db = new MobileManagementContext();
-
+        {   
             Logging.Logger.Instance.LogInfo("Application started");
         }
 
@@ -26,31 +26,28 @@ namespace MobileManagement.UI
 
         private void btnUsers_Click(object sender, EventArgs e)
         {
-            Users usersForm = new Users(_db);
+            Users usersForm = new Users(_repository);
             usersForm.MdiParent = this;
             usersForm.Show();
         }
 
         private void btnDevices_Click(object sender, EventArgs e)
         {
-            Devices devicesForm = new Devices(_db);
+            Devices devicesForm = new Devices(_repository);
             devicesForm.MdiParent = this;
             devicesForm.Show();
         }
 
         private void btnManufacturers_Click(object sender, EventArgs e)
         {
-            //TODO implement
-        }
-
-        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            _db.Dispose();
+            Manufacturers manufacturersForm = new Manufacturers(_repository);
+            manufacturersForm.MdiParent = this;
+            manufacturersForm.Show();
         }
 
         private void btnReport_Click(object sender, EventArgs e)
         {
-            Report reportForm = new Report(_db);
+            Report reportForm = new Report(_repository);
             reportForm.MdiParent = this;
             reportForm.Show();
         }

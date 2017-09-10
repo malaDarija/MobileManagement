@@ -34,8 +34,8 @@
             this.btnUsers = new System.Windows.Forms.ToolStripMenuItem();
             this.btnDevices = new System.Windows.Forms.ToolStripMenuItem();
             this.btnManufacturers = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.btnReport = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -63,21 +63,21 @@
             // btnUsers
             // 
             this.btnUsers.Name = "btnUsers";
-            this.btnUsers.Size = new System.Drawing.Size(152, 22);
+            this.btnUsers.Size = new System.Drawing.Size(151, 22);
             this.btnUsers.Text = "Users";
             this.btnUsers.Click += new System.EventHandler(this.btnUsers_Click);
             // 
             // btnDevices
             // 
             this.btnDevices.Name = "btnDevices";
-            this.btnDevices.Size = new System.Drawing.Size(152, 22);
+            this.btnDevices.Size = new System.Drawing.Size(151, 22);
             this.btnDevices.Text = "Devices";
             this.btnDevices.Click += new System.EventHandler(this.btnDevices_Click);
             // 
             // btnManufacturers
             // 
             this.btnManufacturers.Name = "btnManufacturers";
-            this.btnManufacturers.Size = new System.Drawing.Size(152, 22);
+            this.btnManufacturers.Size = new System.Drawing.Size(151, 22);
             this.btnManufacturers.Text = "Manufacturers";
             this.btnManufacturers.Click += new System.EventHandler(this.btnManufacturers_Click);
             // 
@@ -98,7 +98,6 @@
             this.MainMenuStrip = this.menuStrip;
             this.Name = "MainForm";
             this.Text = "MainForm";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();

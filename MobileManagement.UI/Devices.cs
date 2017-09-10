@@ -1,5 +1,4 @@
-﻿using MobileManagement.Data.Db;
-using MobileManagement.Data.Helper;
+﻿using MobileManagement.Data.Helper;
 using MobileManagement.Data.Model;
 using MobileManagement.Data.Repository;
 using MobileManagement.Data.ViewModel;
@@ -11,19 +10,17 @@ namespace MobileManagement.UI
 {
     public partial class Devices : Form
     {
-        private MobileManagementContext _db;
+
         private IRepository _repository;
 
-        public Devices(MobileManagementContext db)
+        public Devices(IRepository repository)
         {
             InitializeComponent();
-            _db = db;
+            _repository = repository;
         }
 
         private void Devices_Load(object sender, EventArgs e)
-        {            
-            _repository = new EfRepository(_db);
-
+        {
             #region Manufacturer DDL
             manufacturerCb.DataSource = _repository.GetAllManufacturers();
             manufacturerCb.ValueMember = "Id";
@@ -39,7 +36,6 @@ namespace MobileManagement.UI
             tblDevices.DataSource = _repository.GetAllDevices();
             tblDevices.Columns[tblDevices.Columns.Count - 1].Visible = false;
             tblDevices.Columns[tblDevices.Columns.Count - 2].Visible = false;
-            //TOOD: uredi kolone
         }
 
         private void deviceAddBtn_Click(object sender, EventArgs e)
@@ -49,6 +45,7 @@ namespace MobileManagement.UI
                 MessageBox.Show("Test");
                 return;
             }
+
             //Validacija vezana za price i usera 
             var price = decimal.Parse(priceTb.Text);
 
@@ -70,10 +67,10 @@ namespace MobileManagement.UI
                 var minimumUserType = price.GetMinimumUserType();
                 if ((int)selectedUserType < (int)minimumUserType)
                 {
-                    MessageBox.Show("Odabrani korisnik nema zadovoljavajuću poziciju.");                    
+                    MessageBox.Show("Odabrani korisnik nema zadovoljavajuću poziciju.");
                     return;
                 }
-                
+
                 device.UserId = selectedUserId;
             }
 
@@ -113,7 +110,7 @@ namespace MobileManagement.UI
         {
             if (string.IsNullOrEmpty(deviceIdTb.Text))
             {
-                MessageBox.Show("Greška nije ništa odabrano");
+                MessageBox.Show("Greška! Ništa nije odabrano!");
                 return;
             }
 
@@ -164,11 +161,10 @@ namespace MobileManagement.UI
             deviceIdTb.Text = selectedDevice.Id.ToString();
             imeiTb.Text = selectedDevice.Imei;
             phoneNmbrTb.Text = selectedDevice.PhoneNumber;
-            priceTb.Text = selectedDevice.Price.ToString(); //TODO: razmotriti kasnije
+            priceTb.Text = selectedDevice.Price.ToString();
             modelTb.Text = selectedDevice.Model;
             manufacturerCb.SelectedValue = selectedDevice.ManufacturerId;
-
-
+            
             FillUserDdl(selectedDevice.Price);
 
             if (selectedDevice.UserId.HasValue)
@@ -184,13 +180,13 @@ namespace MobileManagement.UI
         private void btnRefreshUsers_Click(object sender, EventArgs e)
         {
             decimal? price = null;
-            if(!string.IsNullOrEmpty(priceTb.Text))
+            if (!string.IsNullOrEmpty(priceTb.Text))
             {
                 price = decimal.Parse(priceTb.Text);
             }
             FillUserDdl(price);
         }
 
-        
+
     }
 }
