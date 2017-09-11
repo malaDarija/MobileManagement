@@ -37,7 +37,7 @@ namespace MobileManagement.UI
         {
            if(string.IsNullOrEmpty(firstNameTb.Text) || string.IsNullOrEmpty(lastNameTb.Text) || string.IsNullOrEmpty(emailTb.Text) || !emailTb.Text.IsValidEmail())
             {
-                MessageBox.Show("Greška, nedostaju podaci", "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Greška! Nedostaju podaci!", "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             User user = new User()
@@ -79,7 +79,7 @@ namespace MobileManagement.UI
         {
             if (string.IsNullOrEmpty(IdTb.Text))
             {
-                MessageBox.Show("Test");
+                MessageBox.Show("Ništa nije odabrano!");
                 return;
             }
 

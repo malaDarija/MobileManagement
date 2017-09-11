@@ -42,7 +42,7 @@ namespace MobileManagement.UI
         {
             if (string.IsNullOrEmpty(imeiTb.Text) || string.IsNullOrEmpty(modelTb.Text) || string.IsNullOrEmpty(priceTb.Text) || !priceTb.Text.IsValidPrice())
             {
-                MessageBox.Show("Test");
+                MessageBox.Show("Nisu popunjena tražena polja!");
                 return;
             }
 
@@ -61,13 +61,13 @@ namespace MobileManagement.UI
             var selectedUserId = (int)userCb.SelectedValue;
             if (selectedUserId != -1)
             {
-                //DOhvati korisnika po idu
+                //Dohvati korisnika po Id-u
                 var selectedUserType = _repository.GetUserTypeForUserId(selectedUserId);
 
                 var minimumUserType = price.GetMinimumUserType();
                 if ((int)selectedUserType < (int)minimumUserType)
                 {
-                    MessageBox.Show("Odabrani korisnik nema zadovoljavajuću poziciju.");
+                    MessageBox.Show("Odabrani korisnik nema odgovarajuću poziciju!");
                     return;
                 }
 
