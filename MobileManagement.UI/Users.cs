@@ -4,7 +4,7 @@ using MobileManagement.Data.Model;
 using MobileManagement.Data.Repository;
 using System;
 using System.Windows.Forms;
-
+using MobileManagement.UI.Aspects;
 namespace MobileManagement.UI
 {
     public partial class Users : Form
@@ -33,8 +33,9 @@ namespace MobileManagement.UI
             tblUsers.DataSource = _repository.GetAllUsers();
         }
 
+        [ExceptionAspect()]
         private void dodajBtn_Click(object sender, EventArgs e)
-        {
+        {            
            if(string.IsNullOrEmpty(firstNameTb.Text) || string.IsNullOrEmpty(lastNameTb.Text) || string.IsNullOrEmpty(emailTb.Text) || !emailTb.Text.IsValidEmail())
             {
                 MessageBox.Show("Greška! Nedostaju podaci!", "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -75,6 +76,7 @@ namespace MobileManagement.UI
             emailTb.Text = "";
         }
 
+        [ExceptionAspect()]
         private void izbrisiBtn_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(IdTb.Text))

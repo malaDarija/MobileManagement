@@ -17,7 +17,7 @@ namespace MobileManagement.Logger
                 case "Console":
                     return new ConsoleWriter();
                 default:
-                    return new ConsoleWriter();
+                    return new FileWriter();
             }
         }
     }
