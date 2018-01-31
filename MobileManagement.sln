@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileManagement.UI", "MobileManagement.UI\MobileManagement.UI.csproj", "{40616600-02D9-445B-9ECA-AF6B3E30846D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileManagement.Data", "MobileManagement.Data\MobileManagement.Data.csproj", "{32BDC71C-CD94-459C-A7B1-B1638077767C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileManagement.Logger", "MobileManagement.Logger\MobileManagement.Logger.csproj", "{0265AD32-CE44-4138-AA73-CF87DE631680}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileManagement.Tests", "MobileManagement.Tests\MobileManagement.Tests.csproj", "{9F65F4EC-A26B-4A63-AD03-154C56B4D3A2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,8 +29,15 @@ Global
 		{0265AD32-CE44-4138-AA73-CF87DE631680}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0265AD32-CE44-4138-AA73-CF87DE631680}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0265AD32-CE44-4138-AA73-CF87DE631680}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F65F4EC-A26B-4A63-AD03-154C56B4D3A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F65F4EC-A26B-4A63-AD03-154C56B4D3A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F65F4EC-A26B-4A63-AD03-154C56B4D3A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F65F4EC-A26B-4A63-AD03-154C56B4D3A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C96680C8-0D76-411A-9463-5BC16C062EE2}
 	EndGlobalSection
 EndGlobal

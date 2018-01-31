@@ -3,3 +3,10 @@ Info: Application started
 Err: Error occured. Message: Neki exception...
 Info: Application started
 Err: Error occured. Message: Aadsads
+Info: Application started
+Info: Application started
+Info: Application started
+Info: Application started
+Err: Error occured. Message: Iznenadna greška u kodu...
+31.1.2018. 19:02:00 :Info: Application started
+31.1.2018. 19:02:08 :Err: Error occured. Message: Iznenadna greška u kodu...

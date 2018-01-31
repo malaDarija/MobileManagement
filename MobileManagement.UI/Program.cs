@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using MobileManagement.Data.Db;
 using MobileManagement.Data.Repository;
+using Metrics;
 
 namespace MobileManagement.UI
 {
@@ -16,6 +17,10 @@ namespace MobileManagement.UI
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            Metric.Config.WithHttpEndpoint("http://localhost:1234/").WithAllCounters();
+                       
+
             AllocConsole();
             using(MobileManagementContext db = new MobileManagementContext())
             {

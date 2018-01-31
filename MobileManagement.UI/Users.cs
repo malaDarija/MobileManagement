@@ -5,12 +5,14 @@ using MobileManagement.Data.Repository;
 using System;
 using System.Windows.Forms;
 using MobileManagement.UI.Aspects;
+using Metrics;
+
 namespace MobileManagement.UI
 {
     public partial class Users : Form
-    {        
+    {
         private IRepository _repository;
-        
+
         public Users(IRepository repository)
         {
             InitializeComponent();
@@ -18,7 +20,7 @@ namespace MobileManagement.UI
         }
 
         private void Users_Load(object sender, EventArgs e)
-        {   
+        {
             RefreshUsersTable();
 
             #region User type combo box            
@@ -35,44 +37,49 @@ namespace MobileManagement.UI
 
         [ExceptionAspect()]
         private void dodajBtn_Click(object sender, EventArgs e)
-        {            
-           if(string.IsNullOrEmpty(firstNameTb.Text) || string.IsNullOrEmpty(lastNameTb.Text) || string.IsNullOrEmpty(emailTb.Text) || !emailTb.Text.IsValidEmail())
+        {
+            //throw new Exception("Iznenadna greška u kodu...");
+            var timer = Metric.Timer("Add user action", Unit.Calls);
+            using (timer.NewContext())
             {
-                MessageBox.Show("Greška! Nedostaju podaci!", "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            User user = new User()
-            {
-                FirstName = firstNameTb.Text,
-                LastName = lastNameTb.Text,                
-                Email = emailTb.Text                
-            };
+                if (string.IsNullOrEmpty(firstNameTb.Text) || string.IsNullOrEmpty(lastNameTb.Text) || string.IsNullOrEmpty(emailTb.Text) || !emailTb.Text.IsValidEmail())
+                {
+                    MessageBox.Show("Greška! Nedostaju podaci!", "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                User user = new User()
+                {
+                    FirstName = firstNameTb.Text,
+                    LastName = lastNameTb.Text,
+                    Email = emailTb.Text
+                };
 
-            if(userTypeCb.SelectedValue != null)
-            {
-                user.UserType = (UserType)userTypeCb.SelectedValue;
-            }
+                if (userTypeCb.SelectedValue != null)
+                {
+                    user.UserType = (UserType)userTypeCb.SelectedValue;
+                }
 
-            if (string.IsNullOrEmpty(IdTb.Text))
-            {
-                _repository.AddUser(user);
-            }
-            else
-            {
-                user.Id = int.Parse(IdTb.Text);
-                _repository.EditUser(user);
-            }
+                if (string.IsNullOrEmpty(IdTb.Text))
+                {
+                    _repository.AddUser(user);
+                }
+                else
+                {
+                    user.Id = int.Parse(IdTb.Text);
+                    _repository.EditUser(user);
+                }
 
-            
-            RestartForm();
-            RefreshUsersTable();
+
+                RestartForm();
+                RefreshUsersTable();
+            }
         }
 
         private void RestartForm()
-        {            
+        {
             IdTb.Text = "";
             firstNameTb.Text = "";
-            lastNameTb.Text = "";            
+            lastNameTb.Text = "";
             emailTb.Text = "";
         }
 
@@ -86,7 +93,7 @@ namespace MobileManagement.UI
             }
 
             DialogResult result = MessageBox.Show($"Jeste li sigurni da želite izbrisati {firstNameTb.Text} {lastNameTb.Text}?", "Jeste li sigurni?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if(result == DialogResult.Yes)
+            if (result == DialogResult.Yes)
             {
                 var userId = int.Parse(IdTb.Text);
                 _repository.DeleteUser(userId);
@@ -94,11 +101,11 @@ namespace MobileManagement.UI
                 RefreshUsersTable();
             }
         }
-        
+
 
         private void tblUsers_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            if(tblUsers.SelectedRows.Count == 0)
+            if (tblUsers.SelectedRows.Count == 0)
             {
                 return;
             }
@@ -108,7 +115,7 @@ namespace MobileManagement.UI
 
             IdTb.Text = selectedUser.Id.ToString();
             firstNameTb.Text = selectedUser.FirstName;
-            lastNameTb.Text = selectedUser.LastName;            
+            lastNameTb.Text = selectedUser.LastName;
             emailTb.Text = selectedUser.Email;
             userTypeCb.SelectedValue = (int)Enum.Parse(typeof(UserType), selectedUser.UserType);
         }

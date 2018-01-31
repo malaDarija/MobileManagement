@@ -10,7 +10,7 @@ namespace MobileManagement.Logger
     {
         public void Write(string msg)
         {
-            Console.WriteLine(msg);
+            Console.WriteLine(DateTime.Now.ToString() + " :" + msg);
         }
     }
 }

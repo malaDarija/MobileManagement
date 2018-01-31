@@ -13,7 +13,7 @@ namespace MobileManagement.Logger
         {
             using(StreamWriter sw = new StreamWriter(@"C:\Users\DarijaBalen\Documents\Projekti\MobileManagement\logs.txt", true))
             {
-                sw.WriteLine(msg);
+                sw.WriteLine(DateTime.Now.ToString() + " :" + msg);
             }
         }
     }
